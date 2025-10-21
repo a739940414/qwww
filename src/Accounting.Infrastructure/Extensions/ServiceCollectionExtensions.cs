@@ -6,6 +6,7 @@ using Accounting.Infrastructure.Persistence.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace Accounting.Infrastructure.Extensions;
 
@@ -33,7 +34,16 @@ public static class ServiceCollectionExtensions
     {
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AccountingDbContext>();
-        await context.Database.MigrateAsync(cancellationToken);
+        var hasMigrations = (await context.Database.GetMigrationsAsync(cancellationToken)).Any();
+
+        if (hasMigrations)
+        {
+            await context.Database.MigrateAsync(cancellationToken);
+        }
+        else
+        {
+            await context.Database.EnsureCreatedAsync(cancellationToken);
+        }
         await AccountingDbContextSeed.SeedAsync(context);
     }
 }

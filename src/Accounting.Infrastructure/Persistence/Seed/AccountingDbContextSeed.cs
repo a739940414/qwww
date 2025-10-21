@@ -1,6 +1,8 @@
 using Accounting.Domain.Entities;
 using Accounting.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Accounting.Infrastructure.Persistence.Seed;
 
@@ -8,10 +10,13 @@ public static class AccountingDbContextSeed
 {
     public static async Task SeedAsync(AccountingDbContext context)
     {
+        var hasPendingChanges = false;
+
         if (!await context.Currencies.AnyAsync())
         {
             context.Currencies.Add(new Currency { Code = "SAR", Name = "Saudi Riyal", IsBase = true });
             context.Currencies.Add(new Currency { Code = "USD", Name = "US Dollar", IsBase = false });
+            hasPendingChanges = true;
         }
 
         if (!await context.ChartOfAccounts.AnyAsync())
@@ -28,12 +33,14 @@ public static class AccountingDbContextSeed
             context.ChartOfAccounts.Add(new ChartOfAccount { Code = "2100", Name = "Accounts Payable", Level = 2, Parent = liabilities, AccountType = AccountType.Liability, IsPostable = true });
             context.ChartOfAccounts.Add(new ChartOfAccount { Code = "4100", Name = "Sales Revenue", Level = 2, Parent = revenue, AccountType = AccountType.Revenue, IsPostable = true });
             context.ChartOfAccounts.Add(new ChartOfAccount { Code = "5100", Name = "Cost of Goods Sold", Level = 2, Parent = expenses, AccountType = AccountType.Expense, IsPostable = true });
+            hasPendingChanges = true;
         }
 
         if (!await context.CostCenters.AnyAsync())
         {
             context.CostCenters.Add(new CostCenter { Code = "CC-ADMIN", Name = "Administration" });
             context.CostCenters.Add(new CostCenter { Code = "CC-SALES", Name = "Sales" });
+            hasPendingChanges = true;
         }
 
         if (!await context.FiscalYears.AnyAsync())
@@ -53,14 +60,25 @@ public static class AccountingDbContextSeed
                 }).ToList()
             };
             context.FiscalYears.Add(currentYear);
+            hasPendingChanges = true;
+        }
+
+        if (hasPendingChanges)
+        {
+            await context.SaveChangesAsync();
+            hasPendingChanges = false;
         }
 
         if (!await context.TaxCodes.AnyAsync())
         {
             var vatAccount = await context.ChartOfAccounts.FirstAsync(x => x.Code == "2100");
             context.TaxCodes.Add(new TaxCode { Code = "VAT15", Description = "VAT 15%", Rate = 0.15m, AccountId = vatAccount.Id });
+            hasPendingChanges = true;
         }
 
-        await context.SaveChangesAsync();
+        if (hasPendingChanges)
+        {
+            await context.SaveChangesAsync();
+        }
     }
 }
