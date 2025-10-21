@@ -30,6 +30,8 @@ public class AccountingDbContext : DbContext, IAccountingDbContext
     public DbSet<PaymentApplication> PaymentApplications => Set<PaymentApplication>();
     public DbSet<TaxCode> TaxCodes => Set<TaxCode>();
     public DbSet<TaxTransaction> TaxTransactions => Set<TaxTransaction>();
+    public DbSet<BankAccount> BankAccounts => Set<BankAccount>();
+    public DbSet<CashBox> CashBoxes => Set<CashBox>();
     public DbSet<Attachment> Attachments => Set<Attachment>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
