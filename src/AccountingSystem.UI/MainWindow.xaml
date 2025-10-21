@@ -1,0 +1,235 @@
+<Window x:Class="AccountingSystem.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="لوحة التحكم المحاسبية"
+        Height="720"
+        Width="1280"
+        FlowDirection="RightToLeft"
+        Background="{DynamicResource DashboardBackgroundBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Ribbon Menu -->
+        <Border Grid.Row="0" Background="#bbdff6" Padding="8" BorderBrush="#9cc7e7" BorderThickness="0,0,0,1">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Stretch">
+                    <ItemsControl>
+                        <ItemsControl.Items>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnAccountsRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="BookAccount" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="الحسابات" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnMaterialsRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Layers" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="المواد" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnSalesRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Cart" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="المبيعات" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnPurchasesRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CartOutline" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="المشتريات" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnManufacturingRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Factory" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="التصنيع" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnReportsRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="FileChart" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="التقارير" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnJournalRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Notebook" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="اليومية" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnToolsRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Wrench" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="الأدوات" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Margin="4" Padding="12" Click="OnSettingsRibbonClick">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Cog" Width="24" Height="24" Foreground="#1565C0"/>
+                                    <TextBlock Text="الإعدادات" FontSize="12" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </ItemsControl.Items>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Content Area -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="340"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="#d3e8fb" Padding="16" BorderBrush="#b9d8f5" BorderThickness="0,0,1,0">
+                <StackPanel FlowDirection="RightToLeft" VerticalAlignment="Stretch">
+                    <TextBlock Text="القائمة الرئيسية" FontSize="18" FontWeight="Bold" Margin="0,0,0,16" Foreground="#0D47A1"/>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnDashboardClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ViewDashboard" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="لوحة التحكم" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnAccountsClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <materialDesign:PackIcon Kind="BookAccount" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="الحسابات" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnMaterialsClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <materialDesign:PackIcon Kind="Cube" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="المواد" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnSalesClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <materialDesign:PackIcon Kind="Cart" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="المبيعات" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnPurchasesClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <materialDesign:PackIcon Kind="CartArrowDown" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="المشتريات" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnReportsClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <materialDesign:PackIcon Kind="ChartBar" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="التقارير" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnBackupClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <materialDesign:PackIcon Kind="CloudUpload" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="النسخ الاحتياطي" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,4" Click="OnSettingsClick">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <materialDesign:PackIcon Kind="Cog" Width="20" Height="20" Margin="0,0,8,0" Foreground="#1565C0"/>
+                            <TextBlock Text="الإعدادات" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Dashboard Tiles -->
+            <ScrollViewer Grid.Column="1" Padding="24" HorizontalScrollBarVisibility="Disabled">
+                <WrapPanel Orientation="Horizontal" FlowDirection="RightToLeft" ItemWidth="220" ItemHeight="140">
+                    <materialDesign:Card Margin="12" Padding="16" Width="220" Height="140" Background="#90CAF9">
+                        <Button Style="{StaticResource DashboardTileButton}" Background="Transparent" BorderThickness="0" Click="OnSalesTileClick">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Cart" Width="42" Height="42" Foreground="White"/>
+                                <TextBlock Text="المبيعات" FontSize="22" Foreground="White" FontWeight="Bold" Margin="0,12,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </materialDesign:Card>
+                    <materialDesign:Card Margin="12" Padding="16" Width="220" Height="140" Background="#64B5F6">
+                        <Button Style="{StaticResource DashboardTileButton}" Background="Transparent" BorderThickness="0" Click="OnPurchasesTileClick">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="CartArrowDown" Width="42" Height="42" Foreground="White"/>
+                                <TextBlock Text="المشتريات" FontSize="22" Foreground="White" FontWeight="Bold" Margin="0,12,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </materialDesign:Card>
+                    <materialDesign:Card Margin="12" Padding="16" Width="220" Height="140" Background="#42A5F5">
+                        <Button Style="{StaticResource DashboardTileButton}" Background="Transparent" BorderThickness="0" Click="OnChartOfAccountsTileClick">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="BookAccount" Width="42" Height="42" Foreground="White"/>
+                                <TextBlock Text="دليل الحسابات" FontSize="22" Foreground="White" FontWeight="Bold" Margin="0,12,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </materialDesign:Card>
+                    <materialDesign:Card Margin="12" Padding="16" Width="220" Height="140" Background="#2196F3">
+                        <Button Style="{StaticResource DashboardTileButton}" Background="Transparent" BorderThickness="0" Click="OnMaterialsTileClick">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Cube" Width="42" Height="42" Foreground="White"/>
+                                <TextBlock Text="المواد" FontSize="22" Foreground="White" FontWeight="Bold" Margin="0,12,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </materialDesign:Card>
+                    <materialDesign:Card Margin="12" Padding="16" Width="220" Height="140" Background="#1E88E5">
+                        <Button Style="{StaticResource DashboardTileButton}" Background="Transparent" BorderThickness="0" Click="OnDebtTileClick">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ScaleBalance" Width="42" Height="42" Foreground="White"/>
+                                <TextBlock Text="الذمم والالتزامات" FontSize="20" TextAlignment="Center" Foreground="White" FontWeight="Bold" Margin="0,12,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </materialDesign:Card>
+                    <materialDesign:Card Margin="12" Padding="16" Width="220" Height="140" Background="#1976D2">
+                        <Button Style="{StaticResource DashboardTileButton}" Background="Transparent" BorderThickness="0" Click="OnBackupTileClick">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="CloudUpload" Width="42" Height="42" Foreground="White"/>
+                                <TextBlock Text="النسخ الاحتياطي" FontSize="22" Foreground="White" FontWeight="Bold" Margin="0,12,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </materialDesign:Card>
+                </WrapPanel>
+            </ScrollViewer>
+
+            <!-- Exchange Rate Panel -->
+            <Border Grid.Column="2" Margin="16" Padding="16" Background="White" CornerRadius="12" Effect="{DynamicResource MaterialDesignElevationShadow2}">
+                <StackPanel FlowDirection="RightToLeft">
+                    <TextBlock Text="سعر الصرف اليوم" FontSize="20" FontWeight="Bold" Foreground="#0D47A1" Margin="0,0,0,16"/>
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,12">
+                        <TextBlock Text="العملة" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <ComboBox materialDesign:HintAssist.Hint="اختر العملة" SelectedIndex="0">
+                            <ComboBoxItem Content="الدولار الأمريكي"/>
+                            <ComboBoxItem Content="اليورو"/>
+                            <ComboBoxItem Content="الجنيه الإسترليني"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,12">
+                        <TextBlock Text="سعر الشراء" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBox materialDesign:HintAssist.Hint="0.0000" Text=""/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,12">
+                        <TextBlock Text="سعر البيع" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBox materialDesign:HintAssist.Hint="0.0000" Text=""/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,12">
+                        <TextBlock Text="تاريخ السريان" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <DatePicker SelectedDate="{x:Static sys:DateTime.Today}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,16,0,0" FlowDirection="RightToLeft">
+                        <Button Style="{StaticResource MaterialDesignContainedButton}" Content="حفظ السعر" Margin="4" Click="OnSaveExchangeRateClick"/>
+                        <Button Style="{StaticResource MaterialDesignOutlinedButton}" Content="تحديث الأسعار" Margin="4" Click="OnRefreshExchangeRateClick"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
