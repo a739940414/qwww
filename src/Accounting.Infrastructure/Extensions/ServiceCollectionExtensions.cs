@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
     {
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AccountingDbContext>();
-        var hasMigrations = (await context.Database.GetMigrationsAsync(cancellationToken)).Any();
+        var hasMigrations = context.Database.GetMigrations().Any();
 
         if (hasMigrations)
         {
