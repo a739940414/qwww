@@ -1,0 +1,23 @@
+# Build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+/.vs/
+
+# Build logs
+msbuild.log
+msbuild.binlog
+
+# User secrets
+appsettings.Development.json
+*.Secret.json
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# macOS
+.DS_Store
