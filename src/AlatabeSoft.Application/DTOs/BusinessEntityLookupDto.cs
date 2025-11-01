@@ -8,5 +8,5 @@ public record BusinessEntityLookupDto(
     BusinessEntityType Type,
     int CurrencyId,
     string CurrencyCode,
-    int AccountId,
+    int ControlAccountId,
     decimal Balance);

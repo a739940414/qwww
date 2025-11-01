@@ -45,7 +45,7 @@ public class BusinessEntityService : IBusinessEntityService
                 x.Currency!.Code,
                 x.CreditLimit,
                 x.Balance,
-                x.AccountId))
+                x.ControlAccountId))
             .ToListAsync(cancellationToken);
     }
 
@@ -69,7 +69,7 @@ public class BusinessEntityService : IBusinessEntityService
             throw new InvalidOperationException($"A {request.Type} with the same name already exists.");
         }
 
-        var accountId = request.AccountId ?? await EnsureDefaultAccountAsync(request.Type, cancellationToken);
+        var accountId = request.ControlAccountId ?? await EnsureDefaultAccountAsync(request.Type, cancellationToken);
 
         var entity = new BusinessEntity
         {
@@ -81,7 +81,7 @@ public class BusinessEntityService : IBusinessEntityService
             CurrencyId = request.CurrencyId,
             CreditLimit = request.CreditLimit,
             Balance = 0m,
-            AccountId = accountId
+            ControlAccountId = accountId
         };
 
         _dbContext.BusinessEntities.Add(entity);
@@ -103,7 +103,7 @@ public class BusinessEntityService : IBusinessEntityService
             currency.Code,
             entity.CreditLimit,
             entity.Balance,
-            entity.AccountId);
+            entity.ControlAccountId);
     }
 
     private async Task<int> EnsureDefaultAccountAsync(BusinessEntityType type, CancellationToken cancellationToken)

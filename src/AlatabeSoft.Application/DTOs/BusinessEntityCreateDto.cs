@@ -10,4 +10,4 @@ public record BusinessEntityCreateDto(
     string? Address,
     int CurrencyId,
     decimal CreditLimit,
-    int? AccountId);
+    int? ControlAccountId);

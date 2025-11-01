@@ -6,5 +6,5 @@ public record CashBoxLookupDto(
     int CurrencyId,
     string CurrencyCode,
     decimal ExchangeRate,
-    int AccountId,
+    int ControlAccountId,
     decimal Balance);

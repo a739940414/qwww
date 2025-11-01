@@ -19,9 +19,9 @@ public class BusinessEntityConfiguration : IEntityTypeConfiguration<BusinessEnti
             .HasForeignKey(x => x.CurrencyId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(x => x.Account)
+        builder.HasOne(x => x.ControlAccount)
             .WithMany()
-            .HasForeignKey(x => x.AccountId)
+            .HasForeignKey(x => x.ControlAccountId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

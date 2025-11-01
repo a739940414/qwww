@@ -25,7 +25,7 @@ public class CashManagementService : ICashManagementService
         return await _dbContext.CashBoxes
             .Include(x => x.Currency)
             .OrderBy(x => x.Name)
-            .Select(x => new CashBoxLookupDto(x.Id, x.Name, x.CurrencyId, x.Currency!.Code, x.Currency.ExchangeRate, x.AccountId, x.Balance))
+            .Select(x => new CashBoxLookupDto(x.Id, x.Name, x.CurrencyId, x.Currency!.Code, x.Currency.ExchangeRate, x.ControlAccountId, x.Balance))
             .ToListAsync(cancellationToken);
     }
 
@@ -35,7 +35,7 @@ public class CashManagementService : ICashManagementService
             .Include(x => x.Currency)
             .Where(x => x.Type == BusinessEntityType.Customer)
             .OrderBy(x => x.Name)
-            .Select(x => new BusinessEntityLookupDto(x.Id, x.Name, x.Type, x.CurrencyId, x.Currency!.Code, x.AccountId, x.Balance))
+            .Select(x => new BusinessEntityLookupDto(x.Id, x.Name, x.Type, x.CurrencyId, x.Currency!.Code, x.ControlAccountId, x.Balance))
             .ToListAsync(cancellationToken);
     }
 
@@ -67,7 +67,7 @@ public class CashManagementService : ICashManagementService
     {
         var cashBox = await _dbContext.CashBoxes.Include(x => x.Currency).FirstAsync(x => x.Id == request.CashBoxId, cancellationToken);
         var customer = request.CustomerId.HasValue
-            ? await _dbContext.BusinessEntities.Include(x => x.Account).FirstAsync(x => x.Id == request.CustomerId.Value, cancellationToken)
+            ? await _dbContext.BusinessEntities.Include(x => x.ControlAccount).FirstAsync(x => x.Id == request.CustomerId.Value, cancellationToken)
             : null;
 
         var entity = new CashReceipt
@@ -99,12 +99,12 @@ public class CashManagementService : ICashManagementService
 
             var details = new List<JournalDetailDto>
             {
-                new(cashBox.AccountId, request.Amount, 0m, null, null, null, $"سند قبض {entity.ReferenceNumber}"),
+                new(cashBox.ControlAccountId, request.Amount, 0m, null, null, null, $"سند قبض {entity.ReferenceNumber}"),
             };
 
             if (customer is not null)
             {
-                details.Add(new(customer.AccountId, 0m, request.Amount, null, null, null, $"سند قبض {entity.ReferenceNumber}"));
+                details.Add(new(customer.ControlAccountId, 0m, request.Amount, null, null, null, $"سند قبض {entity.ReferenceNumber}"));
             }
 
             var journal = await _accountsService.PostAutomaticEntryAsync(nameof(CashReceipt), entity.ReferenceNumber, details, cancellationToken);
@@ -166,7 +166,7 @@ public class CashManagementService : ICashManagementService
             var details = new List<JournalDetailDto>
             {
                 new(expenseAccount.Id, request.Amount, 0m, null, null, null, $"سند صرف {entity.ReferenceNumber}"),
-                new(cashBox.AccountId, 0m, request.Amount, null, null, null, $"سند صرف {entity.ReferenceNumber}")
+                new(cashBox.ControlAccountId, 0m, request.Amount, null, null, null, $"سند صرف {entity.ReferenceNumber}")
             };
 
             var journal = await _accountsService.PostAutomaticEntryAsync(nameof(CashPayment), entity.ReferenceNumber, details, cancellationToken);

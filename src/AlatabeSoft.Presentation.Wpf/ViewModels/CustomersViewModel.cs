@@ -162,7 +162,7 @@ public class CustomersViewModel : ViewModelBase, IAsyncLoadable
             string.IsNullOrWhiteSpace(Address) ? null : Address,
             SelectedCurrency!.Id,
             CreditLimit,
-            AccountId: null);
+            ControlAccountId: null);
 
         try
         {

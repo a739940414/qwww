@@ -16,9 +16,9 @@ public class CashBoxConfiguration : IEntityTypeConfiguration<CashBox>
             .HasForeignKey(x => x.CurrencyId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Account>()
+        builder.HasOne(x => x.ControlAccount)
             .WithMany()
-            .HasForeignKey(x => x.AccountId)
+            .HasForeignKey(x => x.ControlAccountId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

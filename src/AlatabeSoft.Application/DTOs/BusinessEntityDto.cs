@@ -13,4 +13,4 @@ public record BusinessEntityDto(
     string CurrencyCode,
     decimal CreditLimit,
     decimal Balance,
-    int AccountId);
+    int ControlAccountId);

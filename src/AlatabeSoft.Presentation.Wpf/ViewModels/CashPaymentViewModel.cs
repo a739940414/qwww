@@ -124,7 +124,7 @@ public class CashPaymentViewModel : ViewModelBase, IAsyncLoadable
         CashBoxes.Clear();
         foreach (var box in cashBoxes)
         {
-            CashBoxes.Add(new CashBoxLookupItem(box.Id, box.Name, box.CurrencyId, box.CurrencyCode, box.ExchangeRate, box.AccountId));
+            CashBoxes.Add(new CashBoxLookupItem(box.Id, box.Name, box.CurrencyId, box.CurrencyCode, box.ExchangeRate, box.ControlAccountId));
         }
 
         SelectedCashBox = CashBoxes.FirstOrDefault();

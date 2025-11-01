@@ -12,10 +12,10 @@ public class BusinessEntity : BaseEntity
     public int CurrencyId { get; set; }
     public decimal CreditLimit { get; set; }
     public decimal Balance { get; set; }
-    public int AccountId { get; set; }
+    public int ControlAccountId { get; set; }
 
     public Currency? Currency { get; set; }
-    public Account? Account { get; set; }
+    public Account? ControlAccount { get; set; }
     public ICollection<Invoice> Invoices { get; set; } = new HashSet<Invoice>();
     public ICollection<CashReceipt> CashReceipts { get; set; } = new HashSet<CashReceipt>();
 }
