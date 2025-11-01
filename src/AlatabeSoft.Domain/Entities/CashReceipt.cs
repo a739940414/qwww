@@ -3,6 +3,7 @@ namespace AlatabeSoft.Domain.Entities;
 public class CashReceipt : BaseEntity
 {
     public DateTime Date { get; set; }
+    public string ReferenceNumber { get; set; } = string.Empty;
     public int CashBoxId { get; set; }
     public int CurrencyId { get; set; }
     public decimal Amount { get; set; }

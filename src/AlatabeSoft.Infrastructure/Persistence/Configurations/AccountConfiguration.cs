@@ -12,6 +12,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.Property(x => x.Code).HasMaxLength(20).IsRequired();
         builder.Property(x => x.Name).HasMaxLength(100).IsRequired();
         builder.Property(x => x.CustomFieldsJson).HasColumnName("CustomFields");
+        builder.Property(x => x.IsActive).HasDefaultValue(true);
 
         builder.HasOne(x => x.Parent)
             .WithMany(x => x!.Children)

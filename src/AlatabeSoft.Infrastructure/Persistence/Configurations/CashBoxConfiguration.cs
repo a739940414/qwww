@@ -11,5 +11,14 @@ public class CashBoxConfiguration : IEntityTypeConfiguration<CashBox>
         builder.ToTable("CashBoxes");
         builder.Property(x => x.Name).HasMaxLength(100).IsRequired();
         builder.Property(x => x.Balance).HasPrecision(18, 6);
+        builder.HasOne(x => x.Currency)
+            .WithMany(x => x.CashBoxes)
+            .HasForeignKey(x => x.CurrencyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne<Account>()
+            .WithMany()
+            .HasForeignKey(x => x.AccountId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

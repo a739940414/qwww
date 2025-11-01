@@ -23,6 +23,15 @@ public class CurrencyService : ICurrencyService
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IReadOnlyCollection<CurrencyDto>> GetCurrenciesAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Currencies
+            .OrderByDescending(x => x.IsBaseCurrency)
+            .ThenBy(x => x.Code)
+            .Select(x => new CurrencyDto(x.Id, x.Code, x.Name, x.Symbol, x.IsBaseCurrency, x.ExchangeRate, x.IsActive, x.LastUpdated))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task UpdateExchangeRateAsync(int currencyId, decimal rate, DateTime effectiveOn, string source, CancellationToken cancellationToken = default)
     {
         var currency = await _dbContext.Currencies

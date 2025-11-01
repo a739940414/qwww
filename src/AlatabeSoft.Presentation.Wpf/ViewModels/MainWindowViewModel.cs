@@ -1,56 +1,76 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AlatabeSoft.Presentation.Wpf.ViewModels.Commands;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AlatabeSoft.Presentation.Wpf.ViewModels;
 
-public class MainWindowViewModel
+public class MainWindowViewModel : ViewModelBase
 {
-    public ObservableCollection<NavigationItem> NavigationItems { get; } = new(
-    [
-        new NavigationItem("🏠", "الرئيسية"),
-        new NavigationItem("💼", "الحسابات"),
-        new NavigationItem("💰", "الصناديق"),
-        new NavigationItem("🏦", "البنوك"),
-        new NavigationItem("🧾", "القيود"),
-        new NavigationItem("📊", "التقارير"),
-        new NavigationItem("⚙️", "الإعدادات")
-    ]);
+    private readonly IServiceProvider _serviceProvider;
+    private NavigationItemViewModel? _selectedNavigationItem;
+    private ViewModelBase? _currentViewModel;
 
-    public DashboardSnapshot Dashboard { get; } = new()
-    {
-        TotalBalance = 152345.45m,
-        AvailableCash = 76543.20m,
-        TodaySales = 12999.99m,
-        TodayExpenses = 4500.50m
-    };
-
-    public ObservableCollection<TimelineItem> RecentTransactions { get; } = new(
-    [
-        new TimelineItem("فاتورة بيع", "تم إنشاء فاتورة بيع رقم INV-2024-001"),
-        new TimelineItem("سند قبض", "تحصيل دفعة من عميل شركة المستقبل"),
-        new TimelineItem("تحويل بنكي", "تحويل من البنك الرئيسي إلى صندوق الفرع"),
-        new TimelineItem("جرد", "تسوية مخزون لصنف أجهزة الشبكات")
-    ]);
-
-    public ObservableCollection<InventoryAlertItem> InventoryAlerts { get; } = new(
-    [
-        new InventoryAlertItem("حاسوب مكتبي", "الرصيد الحالي أقل من الحد الأدنى"),
-        new InventoryAlertItem("حاسوب محمول", "تاريخ الشراء أقدم من 90 يوم")
-    ]);
+    public ObservableCollection<NavigationItemViewModel> NavigationItems { get; }
 
     public string SelectedBranch { get; set; } = "الفرع الرئيسي";
     public string CurrentUser { get; set; } = "محمد الأحمد";
+
+    public ViewModelBase? CurrentViewModel
+    {
+        get => _currentViewModel;
+        private set => SetProperty(ref _currentViewModel, value);
+    }
+
+    public MainWindowViewModel(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+
+        NavigationItems = new ObservableCollection<NavigationItemViewModel>
+        {
+            CreateNavigationItem("🏠", "الرئيسية", () => _serviceProvider.GetRequiredService<DashboardViewModel>()),
+            CreateNavigationItem("💼", "الحسابات", () => _serviceProvider.GetRequiredService<AccountsViewModel>()),
+            CreateNavigationItem("🧑‍🤝‍🧑", "العملاء والموردون", () => _serviceProvider.GetRequiredService<CustomersViewModel>()),
+            CreateNavigationItem("💰", "سندات القبض", () => _serviceProvider.GetRequiredService<CashReceiptViewModel>()),
+            CreateNavigationItem("🧾", "سندات الصرف", () => _serviceProvider.GetRequiredService<CashPaymentViewModel>())
+        };
+
+        ActivateAsync(NavigationItems.First()).GetAwaiter().GetResult();
+    }
+
+    private NavigationItemViewModel CreateNavigationItem(string icon, string title, Func<ViewModelBase> viewModelFactory)
+    {
+        NavigationItemViewModel? item = null;
+        item = new NavigationItemViewModel(icon, title, viewModelFactory, () => ActivateAsync(item!));
+        return item;
+    }
+
+    private async Task ActivateAsync(NavigationItemViewModel item)
+    {
+        if (_selectedNavigationItem == item)
+        {
+            return;
+        }
+
+        if (_selectedNavigationItem is not null)
+        {
+            _selectedNavigationItem.IsSelected = false;
+        }
+
+        _selectedNavigationItem = item;
+        _selectedNavigationItem.IsSelected = true;
+
+        var viewModel = item.GetOrCreateViewModel();
+
+        if (!item.IsInitialized && viewModel is IAsyncLoadable loadable)
+        {
+            await loadable.LoadAsync(CancellationToken.None);
+            item.MarkInitialized();
+        }
+
+        CurrentViewModel = viewModel;
+    }
 }
-
-public record NavigationItem(string Icon, string Title);
-
-public class DashboardSnapshot
-{
-    public decimal TotalBalance { get; set; }
-    public decimal AvailableCash { get; set; }
-    public decimal TodaySales { get; set; }
-    public decimal TodayExpenses { get; set; }
-}
-
-public record TimelineItem(string Title, string Details);
-
-public record InventoryAlertItem(string ItemName, string Message);

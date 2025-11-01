@@ -18,7 +18,11 @@ public class AccountsService : IAccountsService
         _journalEntryService = journalEntryService;
     }
 
-    public async Task<int> EnsureControlAccountAsync(string accountCode, string accountName, CancellationToken cancellationToken = default)
+    public async Task<int> EnsureControlAccountAsync(
+        string accountCode,
+        string accountName,
+        AccountType accountType = AccountType.Asset,
+        CancellationToken cancellationToken = default)
     {
         var account = await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Code == accountCode, cancellationToken);
         if (account is not null)
@@ -30,8 +34,9 @@ public class AccountsService : IAccountsService
         {
             Code = accountCode,
             Name = accountName,
-            Type = AccountType.Asset,
-            CurrencyId = await _dbContext.Currencies.Where(x => x.IsBaseCurrency).Select(x => x.Id).FirstAsync(cancellationToken)
+            Type = accountType,
+            CurrencyId = await _dbContext.Currencies.Where(x => x.IsBaseCurrency).Select(x => x.Id).FirstAsync(cancellationToken),
+            IsActive = true
         };
 
         _dbContext.Accounts.Add(account);
@@ -62,5 +67,45 @@ public class AccountsService : IAccountsService
             details);
 
         return await _journalEntryService.CreateAsync(entry, cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<AccountDto>> GetAccountsAsync(AccountType? type = null, CancellationToken cancellationToken = default)
+    {
+        var query = _dbContext.Accounts.AsQueryable();
+
+        if (type.HasValue)
+        {
+            query = query.Where(x => x.Type == type);
+        }
+
+        return await query
+            .OrderBy(x => x.Code)
+            .Select(x => new AccountDto(x.Id, x.Code, x.Name, x.Type, x.CurrencyId, x.ParentId, x.BranchId, x.CostCenterId, x.IsActive))
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<AccountDto> CreateAsync(AccountDto account, CancellationToken cancellationToken = default)
+    {
+        if (await _dbContext.Accounts.AnyAsync(x => x.Code == account.Code, cancellationToken))
+        {
+            throw new InvalidOperationException($"An account with code {account.Code} already exists.");
+        }
+
+        var entity = new Account
+        {
+            Code = account.Code,
+            Name = account.Name,
+            Type = account.Type,
+            CurrencyId = account.CurrencyId,
+            ParentId = account.ParentId,
+            BranchId = account.BranchId,
+            CostCenterId = account.CostCenterId,
+            IsActive = account.IsActive
+        };
+
+        _dbContext.Accounts.Add(entity);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return new AccountDto(entity.Id, entity.Code, entity.Name, entity.Type, entity.CurrencyId, entity.ParentId, entity.BranchId, entity.CostCenterId, entity.IsActive);
     }
 }

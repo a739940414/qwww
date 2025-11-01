@@ -12,39 +12,64 @@
         FlowDirection="RightToLeft"
         FontFamily="Cairo"
         Background="{DynamicResource ApplicationBackground}">
-    <Window.DataContext>
-        <vm:MainWindowViewModel />
-    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="NavigationButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Container"
+                                CornerRadius="12"
+                                Background="{TemplateBinding Background}"
+                                Padding="16"
+                                Margin="8"
+                                Cursor="Hand">
+                            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                                <TextBlock Text="{TemplateBinding Tag}" FontSize="18" />
+                                <ContentPresenter Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Container" Property="Border.Background" Value="#44FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Container" Property="Border.Background" Value="#33FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </Window.Resources>
 
-    <DockPanel LastChildFill="True">
-        <StackPanel Orientation="Horizontal"
-                    DockPanel.Dock="Top"
-                    Background="{DynamicResource HeaderBackground}"
-                    Height="60"
-                    VerticalAlignment="Center"
-                    Margin="0">
-            <TextBlock Text="📊 Alatabe Soft - النظام المحاسبي المتكامل"
-                       VerticalAlignment="Center"
-                       FontSize="22"
-                       FontWeight="Bold"
-                       Margin="20,0" />
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Margin="20,0,0,0"
-                        FlowDirection="LeftToRight">
-                <TextBlock Text="الفرع: "
-                           VerticalAlignment="Center"
-                           FontWeight="SemiBold" />
-                <TextBlock Text="{Binding SelectedBranch}"
-                           VerticalAlignment="Center"
-                           Margin="5,0" />
-                <TextBlock Text=" | المستخدم: "
-                           VerticalAlignment="Center"
-                           FontWeight="SemiBold" />
-                <TextBlock Text="{Binding CurrentUser}"
+    <DockPanel>
+        <Border DockPanel.Dock="Top"
+                Background="{DynamicResource HeaderBackground}"
+                Height="60"
+                Padding="20,0"
+                BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="📊 Alatabe Soft - النظام المحاسبي المتكامل"
+                           FontSize="22"
+                           FontWeight="Bold"
                            VerticalAlignment="Center" />
-            </StackPanel>
-        </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center">
+                    <TextBlock Text="الفرع:" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding SelectedBranch}" Margin="6,0,0,0" />
+                    <TextBlock Text="|" Margin="12,0" />
+                    <TextBlock Text="المستخدم:" FontWeight="SemiBold" Margin="12,0,0,0" />
+                    <TextBlock Text="{Binding CurrentUser}" Margin="6,0,0,0" />
+                </StackPanel>
+            </Grid>
+        </Border>
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -58,110 +83,26 @@
                     BorderThickness="0,0,1,0">
                 <ItemsControl ItemsSource="{Binding NavigationItems}">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="10"
-                                    Padding="16"
-                                    CornerRadius="12"
-                                    Background="{DynamicResource TileBackground}"
-                                    Cursor="Hand">
-                                <StackPanel Orientation="Horizontal"
-                                            FlowDirection="RightToLeft">
-                                    <TextBlock Text="{Binding Icon}" FontSize="18" />
-                                    <TextBlock Text="{Binding Title}"
-                                               FontSize="16"
-                                               Margin="10,0,0,0"
-                                               FontWeight="SemiBold" />
-                                </StackPanel>
-                            </Border>
+                        <DataTemplate DataType="{x:Type vm:NavigationItemViewModel}">
+                            <ToggleButton Style="{StaticResource NavigationButtonStyle}"
+                                          IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                          Command="{Binding SelectCommand}"
+                                          Tag="{Binding Icon}">
+                                <TextBlock Text="{Binding Title}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold" />
+                            </ToggleButton>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Border>
 
-            <Grid Grid.Column="1" Margin="24">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="لوحة المعلومات"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="0,0,0,16" />
-
-                <UniformGrid Rows="1" Columns="4" Grid.Row="1" Margin="0,0,0,24">
-                    <Border Style="{StaticResource DashboardCard}">
-                        <StackPanel>
-                            <TextBlock Text="إجمالي الأرصدة" Style="{StaticResource DashboardCardHeader}" />
-                            <TextBlock Text="{Binding Dashboard.TotalBalance, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
-                        </StackPanel>
-                    </Border>
-                    <Border Style="{StaticResource DashboardCard}">
-                        <StackPanel>
-                            <TextBlock Text="النقد المتاح" Style="{StaticResource DashboardCardHeader}" />
-                            <TextBlock Text="{Binding Dashboard.AvailableCash, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
-                        </StackPanel>
-                    </Border>
-                    <Border Style="{StaticResource DashboardCard}">
-                        <StackPanel>
-                            <TextBlock Text="مبيعات اليوم" Style="{StaticResource DashboardCardHeader}" />
-                            <TextBlock Text="{Binding Dashboard.TodaySales, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
-                        </StackPanel>
-                    </Border>
-                    <Border Style="{StaticResource DashboardCard}">
-                        <StackPanel>
-                            <TextBlock Text="مصروفات اليوم" Style="{StaticResource DashboardCardHeader}" />
-                            <TextBlock Text="{Binding Dashboard.TodayExpenses, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
-                        </StackPanel>
-                    </Border>
-                </UniformGrid>
-
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Border Grid.Column="0" Style="{StaticResource PanelCard}">
-                        <StackPanel>
-                            <TextBlock Text="الحركات الأخيرة"
-                                       Style="{StaticResource PanelHeader}" />
-                            <ItemsControl ItemsSource="{Binding RecentTransactions}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Margin="0,0,0,8" Padding="12" Background="#11FFFFFF" CornerRadius="8">
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
-                                                <TextBlock Text="{Binding Details}" FontSize="12" Foreground="#AAFFFFFF" />
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Border>
-
-                    <Border Grid.Column="1" Style="{StaticResource PanelCard}" Margin="16,0,0,0">
-                        <StackPanel>
-                            <TextBlock Text="تنبيهات المخزون"
-                                       Style="{StaticResource PanelHeader}" />
-                            <ItemsControl ItemsSource="{Binding InventoryAlerts}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Margin="0,0,0,8" Padding="12" Background="#11FF6B6B" CornerRadius="8">
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding ItemName}" FontWeight="SemiBold" />
-                                                <TextBlock Text="{Binding Message}" FontSize="12" />
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </Grid>
+            <Border Grid.Column="1" Margin="24"
+                    Background="#11FFFFFF"
+                    CornerRadius="20"
+                    Padding="24">
+                <ContentControl Content="{Binding CurrentViewModel}" />
+            </Border>
         </Grid>
     </DockPanel>
 </Window>

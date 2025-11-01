@@ -21,6 +21,9 @@ public static class DependencyInjection
         services.AddScoped<ICurrencyService, CurrencyService>();
         services.AddScoped<IJournalEntryService, JournalEntryService>();
         services.AddScoped<IAccountsService, AccountsService>();
+        services.AddScoped<IBusinessEntityService, BusinessEntityService>();
+        services.AddScoped<ICashManagementService, CashManagementService>();
+        services.AddTransient<DatabaseSeeder>();
 
         return services;
     }

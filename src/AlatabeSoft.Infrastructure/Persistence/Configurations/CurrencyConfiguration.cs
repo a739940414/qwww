@@ -13,5 +13,6 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
         builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
         builder.Property(x => x.Symbol).HasMaxLength(5).IsRequired();
         builder.Property(x => x.ExchangeRate).HasPrecision(18, 6);
+        builder.Property(x => x.IsActive).HasDefaultValue(true);
     }
 }
