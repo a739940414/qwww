@@ -63,7 +63,7 @@ public class DatabaseSeeder
             LastUpdated = now
         };
 
-        await _dbContext.Currencies.AddRangeAsync(sar, usd, cancellationToken);
+        await _dbContext.Currencies.AddRangeAsync(new[] { sar, usd }, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -175,29 +175,32 @@ public class DatabaseSeeder
         var receivableAccount = await _dbContext.Accounts.FirstAsync(x => x.Code == "1200", cancellationToken);
         var payableAccount = await _dbContext.Accounts.FirstAsync(x => x.Code == "2100", cancellationToken);
 
-        await _dbContext.BusinessEntities.AddRangeAsync(new BusinessEntity
+        await _dbContext.BusinessEntities.AddRangeAsync(new[]
         {
-            Type = BusinessEntityType.Customer,
-            Name = "شركة المستقبل",
-            Phone = "0500000000",
-            Email = "customer@example.com",
-            Address = "الرياض",
-            CurrencyId = baseCurrency.Id,
-            CreditLimit = 50000m,
-            Balance = 0m,
-            AccountId = receivableAccount.Id
-        },
-        new BusinessEntity
-        {
-            Type = BusinessEntityType.Supplier,
-            Name = "مؤسسة التوريد",
-            Phone = "0112345678",
-            Email = "supplier@example.com",
-            Address = "جدة",
-            CurrencyId = baseCurrency.Id,
-            CreditLimit = 0m,
-            Balance = 0m,
-            AccountId = payableAccount.Id
+            new BusinessEntity
+            {
+                Type = BusinessEntityType.Customer,
+                Name = "شركة المستقبل",
+                Phone = "0500000000",
+                Email = "customer@example.com",
+                Address = "الرياض",
+                CurrencyId = baseCurrency.Id,
+                CreditLimit = 50000m,
+                Balance = 0m,
+                AccountId = receivableAccount.Id
+            },
+            new BusinessEntity
+            {
+                Type = BusinessEntityType.Supplier,
+                Name = "مؤسسة التوريد",
+                Phone = "0112345678",
+                Email = "supplier@example.com",
+                Address = "جدة",
+                CurrencyId = baseCurrency.Id,
+                CreditLimit = 0m,
+                Balance = 0m,
+                AccountId = payableAccount.Id
+            }
         }, cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);

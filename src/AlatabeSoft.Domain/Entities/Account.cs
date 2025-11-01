@@ -12,7 +12,6 @@ public class Account : BaseEntity
     public int? BranchId { get; set; }
     public int? CostCenterId { get; set; }
     public string? CustomFieldsJson { get; set; }
-    public bool IsActive { get; set; } = true;
 
     public Account? Parent { get; set; }
     public ICollection<Account> Children { get; set; } = new HashSet<Account>();

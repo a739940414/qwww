@@ -7,7 +7,6 @@ public class Currency : BaseEntity
     public string Symbol { get; set; } = string.Empty;
     public decimal ExchangeRate { get; set; }
     public bool IsBaseCurrency { get; set; }
-    public bool IsActive { get; set; } = true;
     public DateTime LastUpdated { get; set; }
 
     public ICollection<Account> Accounts { get; set; } = new HashSet<Account>();

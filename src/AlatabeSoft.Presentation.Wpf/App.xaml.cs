@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace AlatabeSoft.Presentation.Wpf;
 
-public partial class App : Application
+public partial class App : System.Windows.Application
 {
     private IHost? _host;
 
