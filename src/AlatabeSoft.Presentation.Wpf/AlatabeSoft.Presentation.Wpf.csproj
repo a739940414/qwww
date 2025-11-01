@@ -7,11 +7,6 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml" />
-    <Page Include="Views\MainWindow.xaml" />
-    <Page Include="Resources\*.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AlatabeSoft.Application\AlatabeSoft.Application.csproj" />
     <ProjectReference Include="..\AlatabeSoft.Infrastructure\AlatabeSoft.Infrastructure.csproj" />
   </ItemGroup>
