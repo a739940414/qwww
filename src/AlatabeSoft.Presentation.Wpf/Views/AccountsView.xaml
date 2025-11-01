@@ -1,0 +1,73 @@
+<UserControl x:Class="AlatabeSoft.Presentation.Wpf.Views.AccountsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="إدارة دليل الحسابات"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="0,0,0,16" />
+
+            <Grid Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="رمز الحساب" Margin="0,0,0,6" />
+                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding AccountCode, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,12,0" />
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="اسم الحساب" Margin="0,0,0,6" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,12,0" />
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="نوع الحساب" Margin="0,0,0,6" />
+                <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding SelectedAccountType}" Margin="0,0,0,0" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="العملة" Margin="0,16,0,6" />
+                <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedCurrency}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="الحساب الأب" Margin="0,16,0,6" />
+                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ParentAccounts}" SelectedValuePath="Id" SelectedValue="{Binding SelectedParentAccountId}" DisplayMemberPath="DisplayName" />
+            </Grid>
+
+            <Button Content="حفظ الحساب"
+                    Width="160"
+                    HorizontalAlignment="Right"
+                    Margin="0,12,0,0"
+                    Command="{Binding SaveAccountCommand}" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Accounts}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  Margin="0,20,0,0"
+                  FlowDirection="RightToLeft"
+                  HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="الرمز" Binding="{Binding Code}" Width="*" />
+                <DataGridTextColumn Header="الاسم" Binding="{Binding Name}" Width="2*" />
+                <DataGridTextColumn Header="النوع" Binding="{Binding DisplayType}" Width="*" />
+                <DataGridTextColumn Header="العملة" Binding="{Binding CurrencyCode}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,91 @@
+<UserControl x:Class="AlatabeSoft.Presentation.Wpf.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="600"
+             d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="لوحة المعلومات"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Margin="0,0,0,16" />
+
+        <UniformGrid Grid.Row="1" Rows="1" Columns="4" Margin="0,0,0,24">
+            <Border Style="{StaticResource DashboardCard}">
+                <StackPanel>
+                    <TextBlock Text="إجمالي الأرصدة" Style="{StaticResource DashboardCardHeader}" />
+                    <TextBlock Text="{Binding Summary.TotalBalance, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource DashboardCard}">
+                <StackPanel>
+                    <TextBlock Text="النقد المتاح" Style="{StaticResource DashboardCardHeader}" />
+                    <TextBlock Text="{Binding Summary.AvailableCash, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource DashboardCard}">
+                <StackPanel>
+                    <TextBlock Text="تحصيلات اليوم" Style="{StaticResource DashboardCardHeader}" />
+                    <TextBlock Text="{Binding Summary.TodaySales, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource DashboardCard}">
+                <StackPanel>
+                    <TextBlock Text="مصروفات اليوم" Style="{StaticResource DashboardCardHeader}" />
+                    <TextBlock Text="{Binding Summary.TodayExpenses, StringFormat={}{0:N2}}" Style="{StaticResource DashboardCardValue}" />
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource PanelCard}">
+                <StackPanel>
+                    <TextBlock Text="أحدث الحركات" Style="{StaticResource PanelHeader}" />
+                    <ItemsControl ItemsSource="{Binding RecentTransactions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,8" Padding="12" Background="#11FFFFFF" CornerRadius="8">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Details}" FontSize="12" Foreground="#AAFFFFFF" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource PanelCard}" Margin="16,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="تنبيهات المخزون" Style="{StaticResource PanelHeader}" />
+                    <ItemsControl ItemsSource="{Binding InventoryAlerts}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,8" Padding="12" Background="#11FF6B6B" CornerRadius="8">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding ItemName}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Message}" FontSize="12" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
