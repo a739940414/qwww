@@ -44,4 +44,7 @@ Global
         {9B6E86AB-57EC-4E78-AB60-6F84823C44F8} = {2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}
         {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88} = {2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}
     EndGlobalSection
+    GlobalSection(ExtensibilityGlobals) = postSolution
+        StartupProject = AlatabeSoft.Presentation.Wpf
+    EndGlobalSection
 EndGlobal
