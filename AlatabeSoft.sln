@@ -2,6 +2,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlatabeSoft.Presentation.Wpf", "src\\AlatabeSoft.Presentation.Wpf\\AlatabeSoft.Presentation.Wpf.csproj", "{7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlatabeSoft.Domain", "src\\AlatabeSoft.Domain\\AlatabeSoft.Domain.csproj", "{CB5270FF-9E8C-4867-A57A-6BE5285BD1E7}"
@@ -10,14 +12,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlatabeSoft.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlatabeSoft.Infrastructure", "src\\AlatabeSoft.Infrastructure\\AlatabeSoft.Infrastructure.csproj", "{9B6E86AB-57EC-4E78-AB60-6F84823C44F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlatabeSoft.Presentation.Wpf", "src\\AlatabeSoft.Presentation.Wpf\\AlatabeSoft.Presentation.Wpf.csproj", "{7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}"
-EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
         Debug|Any CPU = Debug|Any CPU
         Release|Any CPU = Release|Any CPU
     EndGlobalSection
     GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Release|Any CPU.Build.0 = Release|Any CPU
         {CB5270FF-9E8C-4867-A57A-6BE5285BD1E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
         {CB5270FF-9E8C-4867-A57A-6BE5285BD1E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {CB5270FF-9E8C-4867-A57A-6BE5285BD1E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,21 +34,17 @@ Global
         {9B6E86AB-57EC-4E78-AB60-6F84823C44F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {9B6E86AB-57EC-4E78-AB60-6F84823C44F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
         {9B6E86AB-57EC-4E78-AB60-6F84823C44F8}.Release|Any CPU.Build.0 = Release|Any CPU
-        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88}.Release|Any CPU.Build.0 = Release|Any CPU
     EndGlobalSection
     GlobalSection(SolutionProperties) = preSolution
         HideSolutionNode = FALSE
     EndGlobalSection
     GlobalSection(NestedProjects) = preSolution
+        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88} = {2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}
         {CB5270FF-9E8C-4867-A57A-6BE5285BD1E7} = {2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}
         {2E373C39-6CF4-45FE-A95F-6A44BF7E650F} = {2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}
         {9B6E86AB-57EC-4E78-AB60-6F84823C44F8} = {2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}
-        {7C5D4CB4-90C4-4E59-A9F1-1E0AAC5F7C88} = {2A1F6CF2-52F1-4D3B-B7C4-DC8356FDE123}
     EndGlobalSection
     GlobalSection(ExtensibilityGlobals) = postSolution
-        StartupProject = AlatabeSoft.Presentation.Wpf
+        SolutionGuid = {A85A0F78-EB35-4F83-A23F-320EBA4C0C39}
     EndGlobalSection
 EndGlobal
