@@ -1,0 +1,18 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="PrimaryColor">#FF1D3557</Color>
+    <Color x:Key="SecondaryColor">#FFE63946</Color>
+    <Color x:Key="AccentColor">#FFA8DADC</Color>
+    <Color x:Key="BackgroundColor">#FF0B132B</Color>
+    <Color x:Key="SurfaceColor">#FF1C2541</Color>
+    <Color x:Key="CardColor">#FF3A506B</Color>
+    <Color x:Key="DividerColor">#33293D5B</Color>
+
+    <SolidColorBrush x:Key="ApplicationBackground" Color="{StaticResource BackgroundColor}" />
+    <SolidColorBrush x:Key="HeaderBackground" Color="{StaticResource SurfaceColor}" />
+    <SolidColorBrush x:Key="NavigationBackground" Color="{StaticResource SurfaceColor}" />
+    <SolidColorBrush x:Key="TileBackground" Color="#331D3557" />
+    <SolidColorBrush x:Key="PanelBackground" Color="{StaticResource CardColor}" />
+    <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource DividerColor}" />
+    <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource SecondaryColor}" />
+</ResourceDictionary>
