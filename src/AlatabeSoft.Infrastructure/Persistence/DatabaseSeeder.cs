@@ -156,7 +156,7 @@ public class DatabaseSeeder
         {
             Name = "صندوق الفرع الرئيسي",
             CurrencyId = baseCurrency.Id,
-            ControlAccountId = cashAccount.Id,
+            ControlAccount = cashAccount,
             Balance = 0m,
             BranchId = branch.Id
         }, cancellationToken);
@@ -187,7 +187,7 @@ public class DatabaseSeeder
                 CurrencyId = baseCurrency.Id,
                 CreditLimit = 50000m,
                 Balance = 0m,
-                ControlAccountId = receivableAccount.Id
+                ControlAccount = receivableAccount
             },
             new BusinessEntity
             {
@@ -199,7 +199,7 @@ public class DatabaseSeeder
                 CurrencyId = baseCurrency.Id,
                 CreditLimit = 0m,
                 Balance = 0m,
-                ControlAccountId = payableAccount.Id
+                ControlAccount = payableAccount
             }
         }, cancellationToken);
 
